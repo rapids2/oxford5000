@@ -1,0 +1,33 @@
+{
+ "name": "The Oxford 3000 & 5000 · 学习手册",
+ "short_name": "Oxford 5000",
+ "description": "牛津官方四大词表：Oxford 3000 / 5000 / Phrase List / OPAL，共 7632 条，中英双语、英美双音标、记忆曲线复习。",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "orientation": "portrait-primary",
+ "background_color": "#faf6ed",
+ "theme_color": "#faf6ed",
+ "lang": "zh-CN",
+ "categories": [
+  "education"
+ ],
+ "icons": [
+  {
+   "src": "icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  },
+  {
+   "src": "icon-maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}

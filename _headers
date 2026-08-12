@@ -1,0 +1,6 @@
+/*
+  Cache-Control: public, max-age=0, must-revalidate
+/data.json
+  Cache-Control: public, max-age=86400
+/*.png
+  Cache-Control: public, max-age=604800
