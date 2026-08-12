@@ -6,6 +6,8 @@
 一个单页的英语词汇学习网站。所有词条严格对齐 [Oxford Learner's Word Lists](https://www.oxfordlearnersdictionaries.com/wordlists/) 官方数据，
 不联网也能用，学习进度存在本机浏览器里。
 
+![界面截图](screenshot.png)
+
 ---
 
 ## 收录内容
