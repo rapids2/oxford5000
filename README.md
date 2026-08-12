@@ -1,81 +1,70 @@
-# 部署说明
+# The Oxford 3000 & 5000 · 学习手册
 
-这个文件夹就是完整的网站，是纯静态的：没有后台、没有数据库、不用付服务器钱。
-把整个文件夹原样上传到任何静态托管，就能得到一个网址。
+> 牛津官方四大词表，7632 条，中英双语 · 英美双音标 · 记忆曲线复习
+> **在线使用 → <https://rapids2.github.io/oxford5000/>**
+
+一个单页的英语词汇学习网站。所有词条严格对齐 [Oxford Learner's Word Lists](https://www.oxfordlearnersdictionaries.com/wordlists/) 官方数据，
+不联网也能用，学习进度存在本机浏览器里。
+
+---
+
+## 收录内容
+
+| 词表 | 条数 | 说明 |
+| --- | --- | --- |
+| **The Oxford 3000™** | 2979 | 最核心的英语词汇，A1–B2 |
+| **The Oxford 5000™**（进阶部分） | 1979 | 在 3000 之上扩展的 B2–C1 词汇 |
+| **Oxford Phrase List** | 750 | 最重要的搭配与短语，A1–C1 |
+| **OPAL**（Oxford Phrasal Academic Lexicon） | 1924 | 学术英语词汇，分书面词 1202 / 口语词 600 / 书面短语 381 / 口语短语 249 |
+| **合计** | **7632** | |
+
+**每一条**都有中文释义、英文释义、英文例句 + 中文翻译、CEFR 等级、英式与美式音标——零缺失。
+
+## 功能
+
+- **四表分区浏览**，按 CEFR 等级（A1–C1）筛选，OPAL 可再按 sublist 与功能类别细分
+- **全文搜索**：单词、中文、英文释义都能搜，按 `/` 直接聚焦
+- **英美双音标**：`dance` `/ˈdɑːns/` vs `/ˈdæns/`、`schedule` `/ˈʃedjuːl/` vs `/ˈskedʒuːl/`，切换 UK/US 时**发音也跟着换**
+- **发音**：可选择系统语音（自动把云端神经语音排在前面）、可调语速；点例句朗读整句
+- **卡片练习**：翻卡背词，切卡自动读词，翻面自动读例句
+- **记忆曲线复习**：SM-2 间隔重复。四档评分（忘记 / 困难 / 认识 / 简单），每档标出下次复习时间；间隔拉到 30 天自动"出师"，此后不再出现
+- **每日新词额度**可调（5–200），已掌握的词默认隐藏，进度可导出导入
+- **深色模式**、**PWA**：手机"添加到主屏幕"后像 App 一样打开，断网可用
+
+## 数据来源与版权
+
+- 词表归属与 CEFR 分级：[Oxford Learner's Dictionaries](https://www.oxfordlearnersdictionaries.com/wordlists/)。
+  The Oxford 3000™、Oxford 5000™、OPAL 均为 Oxford University Press 的商标，本项目仅作学习用途，与 OUP 无隶属关系。
+- 释义、例句、中文翻译：[yingyuqiao-assets](https://www.npmjs.com/package/yingyuqiao-assets)（MIT）与 [ECDICT](https://github.com/skywind3000/ECDICT)（MIT）
+- 英美音标：[ipa-dict](https://github.com/open-dict-data/ipa-dict)（MIT），并归一为牛津式记法
+- 其余约 1100 条（官方短语表与 OPAL 中开源词库未覆盖的部分）为人工补写
+
+本仓库代码以 MIT 协议开源。
+
+## 本地运行
+
+```bash
+git clone https://github.com/rapids2/oxford5000.git
+cd oxford5000
+python3 -m http.server 8000
+# 浏览器打开 http://localhost:8000
+```
+
+需要通过 http(s) 打开：直接双击 `index.html` 会因为浏览器安全限制读不到 `data.json`。
+
+## 文件结构
 
 ```
-site/
-├── index.html              主页面（15 KB gzip 后）
-├── data.json               词库 7632 条（1.8 MB gzip 后）
-├── sw.js                   Service Worker，装过一次后断网也能用
-├── manifest.webmanifest    PWA 配置，手机可"添加到主屏幕"
-├── icon-192.png / icon-512.png / icon-maskable-512.png
-├── _headers                Netlify / Cloudflare 的缓存规则
-└── .nojekyll               GitHub Pages 用
+index.html              页面与全部逻辑（无框架、无构建步骤）
+data.json               词库 7632 条
+sw.js                   Service Worker，离线缓存
+manifest.webmanifest    PWA 配置
+icon-*.png              图标
+_headers                Netlify / Cloudflare Pages 缓存规则
+DEPLOY.md               部署到其他平台的说明
 ```
 
-> 注意：`index.html` 需要通过 http(s) 打开，直接双击会因为浏览器安全限制读不到 `data.json`。
-> 想在本机离线用，请用同目录外的 **oxford-3000-5000.html** 单文件版。
+## 更新词库
 
----
-
-## 推荐做法：GitHub 存代码 + Cloudflare Pages 托管
-
-代码留在 GitHub 方便版本管理和以后扩展成个人网站，Cloudflare 负责分发（全球 CDN，国内访问比 GitHub Pages 稳）。
-
-1. 在 GitHub 新建一个仓库，比如 `oxford5000`（Public）
-2. 把 `site/` 里的文件（不是文件夹本身）上传到仓库根目录
-   —— 网页上点 **Add file → Upload files**，把文件全选拖进去即可，不用命令行
-3. 打开 [dash.cloudflare.com](https://dash.cloudflare.com) → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**
-4. 选中刚才的仓库，构建设置全部留空（Framework preset 选 None，Build command 空着，Output directory 填 `/`）
-5. 点 Deploy，一两分钟后拿到 `xxx.pages.dev` 的网址
-
-以后想改内容，在 GitHub 上改文件，Cloudflare 会自动重新发布。
-
-### 绑定自己的域名
-
-Cloudflare Pages 项目里 → **Custom domains** → **Set up a domain** → 填 `oxford.你的域名.com`，
-按提示加一条 CNAME 记录就行，HTTPS 证书自动签发，免费。
-
----
-
-## 更快的做法：Netlify Drop（1 分钟，不用注册也能先试）
-
-1. 打开 <https://app.netlify.com/drop>
-2. 把 `site` 文件夹整个拖进去
-3. 立刻得到一个 `xxx.netlify.app` 网址
-
-想保留和改域名，注册一个免费账号把这个站点认领了即可。
-
----
-
-## 也可以只用 GitHub Pages
-
-1. 仓库 → **Settings** → **Pages**
-2. Source 选 `Deploy from a branch`，分支选 `main`，目录选 `/ (root)`
-3. 保存，等一分钟，网址是 `你的用户名.github.io/仓库名/`
-
-绑定自定义域名：在仓库根目录加一个名为 `CNAME` 的文件，内容写你的域名（例如 `oxford.example.com`），
-然后在域名商那边加一条 CNAME 指向 `你的用户名.github.io`。
-
-**注意**：如果以后想做个人主页，把仓库改名为 `你的用户名.github.io`，
-这个词表可以放在子目录 `/oxford/` 下，两者不冲突。
-
----
-
-## 手机上当 App 用
-
-网站上线后用手机浏览器打开：
-
-- **iPhone（Safari）**：分享按钮 → 添加到主屏幕
-- **Android（Chrome）**：右上角菜单 → 安装应用 / 添加到主屏幕
-
-装好后图标在桌面，打开没有浏览器地址栏，**断网也能背单词**（词库已缓存在本机）。
-学习进度存在浏览器本地，换设备请用页面上的「导出进度 / 导入进度」。
-
----
-
-## 以后想更新词库
-
-只替换 `data.json`，然后把 `sw.js` 里的 `oxford-v1` 改成 `oxford-v2`
-（改版本号是为了让已经装过的用户拿到新数据），重新上传即可。
+替换 `data.json` 后，把 `sw.js` 里的缓存版本号 `oxford-v1` 递增为 `oxford-v2`，
+否则已经装过的用户拿到的仍是缓存中的旧数据。
