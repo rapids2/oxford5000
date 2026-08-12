@@ -231,9 +231,10 @@ footer a{color:var(--ink2)}
       <input id="q" type="search" placeholder="搜索单词、中文、释义…" autocomplete="off" spellcheck="false">
       <span class="kbd">/</span>
     </div>
-    <div class="seg" role="group" aria-label="音标">
-      <button id="pUK" aria-pressed="false">UK</button>
-      <button id="pUS" aria-pressed="true">US</button>
+    <div class="seg" role="group" aria-label="口音">
+      <span class="lbl">口音</span>
+      <button id="pUK" aria-pressed="false" title="英式：音标与发音都用英音">UK</button>
+      <button id="pUS" aria-pressed="true" title="美式：音标与发音都用美音">US</button>
     </div>
     <div class="seg" role="group" aria-label="自动发音">
       <span class="lbl">自动发音</span>
@@ -242,7 +243,7 @@ footer a{color:var(--ink2)}
     </div>
     <div class="seg" role="group" aria-label="语音">
       <span class="lbl">语音</span>
-      <select id="voiceSel" class="vsel" title="选择朗读语音（带 ☁ 的通常最自然）"></select>
+      <select id="voiceSel" class="vsel" title="在当前口音里挑一个更好听的语音，带 ☁ 的通常最自然"></select>
       <select id="rateSel" class="vsel" title="语速">
         <option value="0.7">0.7×</option><option value="0.8">0.8×</option>
         <option value="0.9">0.9×</option><option value="1">1.0×</option><option value="1.15">1.15×</option>
@@ -332,7 +333,6 @@ footer a{color:var(--ink2)}
 <script>
 (function(){
 "use strict";
-function boot(DB){ start(DB); }
 var bar=document.getElementById('bootBar'), txt=document.getElementById('bootTxt');
 fetch('data.json').then(function(r){
   if(!r.ok) throw new Error(r.status);
@@ -353,9 +353,9 @@ fetch('data.json').then(function(r){
   })();
 }).then(function(DB){
   bar.style.width='100%';
-  setTimeout(function(){ document.getElementById('boot').remove(); boot(DB); },120);
+  setTimeout(function(){ document.getElementById('boot').remove(); start(DB); },120);
 }).catch(function(e){
-  txt.innerHTML='词库载入失败：'+e.message+'<br>如果你是直接双击打开本文件，请改用 <b>oxford-3000-5000.html</b>（单文件版），<br>或把整个文件夹放到网站服务器上。';
+  txt.innerHTML='词库载入失败：'+e.message+'<br>请通过 http(s) 打开本页面。';
 });
 })();
 </script>
@@ -378,7 +378,7 @@ function today(){ return Math.floor(Date.now()/DAY); }
 var TODAY=today();
 
 /* ---------- prefs ---------- */
-var P={acc:'u',theme:'light',auto:true,showDone:false,npd:20,stamp:TODAY,newToday:0,revToday:0,voice:'',rate:0.9,exOnFlip:true};
+var P={acc:'u',theme:'light',auto:true,showDone:false,npd:20,stamp:TODAY,newToday:0,revToday:0,voiceGB:'',voiceUS:'',rate:0.9,exOnFlip:true};
 try{ var s=localStorage.getItem('ox5k'); if(s) P=Object.assign(P,JSON.parse(s)); }catch(e){}
 if(P.stamp!==TODAY){ P.stamp=TODAY; P.newToday=0; P.revToday=0; }
 function save(){ try{ localStorage.setItem('ox5k',JSON.stringify(P)); }catch(e){} }
@@ -449,6 +449,7 @@ function applyTheme(){
 function applyAcc(){
   document.getElementById('pUK').setAttribute('aria-pressed',P.acc==='k');
   document.getElementById('pUS').setAttribute('aria-pressed',P.acc==='u');
+  if(typeof loadVoices==='function') loadVoices();
 }
 function applyAuto(){
   document.getElementById('aOn').setAttribute('aria-pressed',!!P.auto);
@@ -713,28 +714,37 @@ function bestFor(tag){
   return c[0]||null;
 }
 var voiceSel=document.getElementById('voiceSel');
+function voicePref(){ return P.acc==='k' ? P.voiceGB : P.voiceUS; }
+function setVoicePref(n){ if(P.acc==='k') P.voiceGB=n; else P.voiceUS=n; }
 function loadVoices(){
-  if(!window.speechSynthesis) return;
+  if(!window.speechSynthesis||!voiceSel) return;
   VOICES=speechSynthesis.getVoices().filter(function(v){ return /^en/i.test(v.lang); });
   if(!VOICES.length) return;
   vGB=bestFor('en-gb'); vUS=bestFor('en-us');
-  voiceSel.innerHTML='<option value="">自动（英/美最佳）</option>'+
-    VOICES.slice().sort(function(a,b){return rank(b)-rank(a);}).map(function(v){
+  var tag=P.acc==='k'?'en-gb':'en-us';
+  var mine=VOICES.filter(function(v){ return v.lang && v.lang.replace('_','-').toLowerCase().indexOf(tag)===0; });
+  if(!mine.length) mine=VOICES;                    /* 系统没装对应口音就退回全部英语语音 */
+  mine.sort(function(a,b){ return rank(b)-rank(a); });
+  var auto=P.acc==='k'?'自动（最佳英音）':'自动（最佳美音）';
+  voiceSel.innerHTML='<option value="">'+auto+'</option>'+
+    mine.map(function(v){
       return '<option value="'+esc(v.name)+'">'+esc(v.name)+' · '+esc(v.lang)+(v.localService?'':' ☁')+'</option>';
     }).join('');
-  if(P.voice) voiceSel.value=P.voice;
+  var want=voicePref();
+  voiceSel.value = (want && mine.some(function(v){return v.name===want;})) ? want : '';
 }
 if(window.speechSynthesis){ loadVoices(); speechSynthesis.onvoiceschanged=loadVoices; }
 setTimeout(loadVoices,400); setTimeout(loadVoices,1500);
-if(voiceSel) voiceSel.onchange=function(){ P.voice=voiceSel.value; save(); speak('This is how it sounds.'); };
+if(voiceSel) voiceSel.onchange=function(){ setVoicePref(voiceSel.value); save(); speak(P.acc==='k'?'This is how it sounds in British English.':'This is how it sounds in American English.'); };
 var rateSel=document.getElementById('rateSel');
 if(rateSel){
   rateSel.value=String(P.rate||0.9);
   rateSel.onchange=function(){ P.rate=parseFloat(rateSel.value); save(); };
 }
 function currentVoice(){
-  if(P.voice){
-    var v=VOICES.filter(function(x){ return x.name===P.voice; })[0];
+  var want=voicePref();
+  if(want){
+    var v=VOICES.filter(function(x){ return x.name===want; })[0];
     if(v) return v;
   }
   return P.acc==='k' ? (vGB||vUS) : (vUS||vGB);
