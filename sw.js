@@ -1,5 +1,5 @@
 /* Oxford 3000 & 5000 — 离线缓存 */
-const CACHE = 'oxford-v5';
+const CACHE = 'oxford-v6';
 const ASSETS = ['./', './index.html', './data.json', './manifest.webmanifest',
                 './icon-192.png', './icon-512.png'];
 
