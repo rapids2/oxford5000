@@ -196,6 +196,65 @@ html[data-theme="dark"] .fcnav button[aria-pressed="true"]{color:#16150f}
 .grades .g1{color:var(--g1)} .grades .g2{color:var(--g2)}
 .grades .g3{color:var(--g3)} .grades .g4{color:var(--g4)}
 .fchelp{margin-top:15px;font:11px var(--mono);color:var(--ink3);text-align:center;line-height:1.9}
+
+/* ---- 检测 ---- */
+.qzsetup{width:min(560px,100%);background:var(--card);border:1px solid var(--line2);border-radius:18px;
+  padding:26px 28px;box-shadow:var(--shadow)}
+.qzsetup h2{font:600 17px var(--sans);margin:0 0 4px}
+.qzsetup .sub{font:12px var(--mono);color:var(--ink3);margin-bottom:18px}
+.qzsetup .row{margin-bottom:16px}
+.qzsetup .lb{font:600 12px var(--sans);color:var(--ink2);margin-bottom:7px}
+.qzsetup .opts{display:flex;flex-wrap:wrap;gap:7px}
+.qzsetup .opts button{border:1px solid var(--line2);background:transparent;color:var(--ink2);
+  border-radius:8px;padding:7px 12px;font:500 12.5px var(--sans);cursor:pointer}
+.qzsetup .opts button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+html[data-theme="dark"] .qzsetup .opts button[aria-pressed="true"]{color:#16150f}
+.qzgo{width:100%;margin-top:6px;border:0;background:var(--accent);color:#fff;border-radius:11px;
+  padding:12px;font:600 14px var(--sans);cursor:pointer}
+html[data-theme="dark"] .qzgo{color:#16150f}
+.qzgo:disabled{opacity:.45;cursor:not-allowed}
+.qzwarn{font:11.5px var(--mono);color:var(--g2);margin-top:9px;text-align:center}
+
+.qzbody{width:min(560px,100%);background:var(--card);border:1px solid var(--line2);border-radius:18px;
+  padding:30px 28px;box-shadow:var(--shadow);text-align:center}
+.qzq{font:600 26px/1.35 var(--serif,var(--sans));margin-bottom:6px;word-break:break-word}
+.qzq.zh{font-size:19px;font-weight:500}
+.qzhint{font:11.5px var(--mono);color:var(--ink3);margin-bottom:20px}
+.qzopts{display:grid;gap:9px;margin-top:6px}
+.qzopts button{border:1px solid var(--line2);background:transparent;color:var(--ink);border-radius:11px;
+  padding:12px 14px;font:500 14px var(--sans);cursor:pointer;text-align:left;line-height:1.5}
+.qzopts button:hover:not(:disabled){border-color:var(--accent2)}
+.qzopts button.right{border-color:var(--ok);color:var(--ok);background:color-mix(in srgb,var(--ok) 10%,transparent)}
+.qzopts button.wrong{border-color:var(--g1);color:var(--g1);background:color-mix(in srgb,var(--g1) 10%,transparent)}
+.qzopts button:disabled{cursor:default}
+.qzin{width:100%;border:1px solid var(--line2);background:var(--bg);color:var(--ink);border-radius:11px;
+  padding:13px 14px;font:500 17px var(--mono);text-align:center;margin-top:4px}
+.qzin:focus{outline:0;border-color:var(--accent)}
+.qzin.right{border-color:var(--ok);color:var(--ok)}
+.qzin.wrong{border-color:var(--g1);color:var(--g1)}
+.qzfb{margin-top:14px;font:13px var(--sans);min-height:22px}
+.qzfb .ok{color:var(--ok)} .qzfb .no{color:var(--g1)}
+.qzfb .ans{font:600 15px var(--mono);color:var(--ink)}
+.qzbar{width:min(560px,100%);display:flex;justify-content:space-between;align-items:center;
+  font:12px var(--mono);color:var(--ink3);margin-bottom:12px}
+.qzprog{flex:1;height:3px;background:var(--line);border-radius:2px;margin:0 12px;overflow:hidden}
+.qzprog i{display:block;height:100%;background:var(--accent);transition:width .25s}
+.qznext{margin-top:16px;border:1px solid var(--line2);background:var(--card);color:var(--ink);
+  border-radius:10px;padding:10px 22px;font:500 13px var(--sans);cursor:pointer}
+.qzres{width:min(560px,100%);text-align:center}
+.qzscore{font:700 46px var(--sans);color:var(--accent);line-height:1.1}
+.qzsub{font:12.5px var(--mono);color:var(--ink3);margin:8px 0 20px}
+.qzwrong{text-align:left;max-height:38vh;overflow:auto;border-top:1px solid var(--line);padding-top:12px}
+.qzwrong .it{display:flex;justify-content:space-between;gap:12px;padding:7px 2px;
+  border-bottom:1px solid var(--line);font-size:13.5px}
+.qzwrong .it b{font-weight:600}
+.qzwrong .it span{color:var(--ink3);text-align:right;font-size:12.5px}
+.qzacts{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.qzacts button{border:1px solid var(--line2);background:var(--card);color:var(--ink);border-radius:10px;
+  padding:10px 18px;font:500 13px var(--sans);cursor:pointer}
+.qzacts .p{background:var(--accent);border-color:var(--accent);color:#fff}
+html[data-theme="dark"] .qzacts .p{color:#16150f}
+@media(max-width:560px){ .qzq{font-size:22px} .qzscore{font-size:38px} }
 .doneview{text-align:center;max-width:460px}
 .doneview .big{font-family:var(--serif);font-size:30px;margin-bottom:10px}
 .doneview p{color:var(--ink2);font-size:14px;margin:6px 0}
@@ -259,6 +318,7 @@ footer a{color:var(--ink2)}
       <button id="tD" aria-pressed="false">深色</button>
     </div>
     <div class="seg"><button id="fcBtn" aria-pressed="false">浏览卡片</button></div>
+    <div class="seg"><button id="qzBtn">检测</button></div>
     <button class="primary" id="srsBtn">开始复习<span class="b" id="srsN">0</span></button>
   </div>
 </div>
@@ -325,6 +385,11 @@ footer a{color:var(--ink2)}
     <button class="g4" data-q="4"><span class="t">简单</span><span class="s" id="i4">4 天</span></button>
   </div>
   <div class="fchelp" id="fchelp"></div>
+</div>
+<div class="fc" id="qz">
+  <div class="fcbar" id="qzScope"></div>
+  <button class="fcx" id="qzClose">关闭 Esc</button>
+  <div id="qzStage"></div>
 </div>
 <div class="toast" id="toast"></div>
 
@@ -995,6 +1060,235 @@ document.addEventListener('keydown',function(ev){
   else if(k==='k'||k==='K'){ ev.preventDefault(); markOk(); }
   else if(k==='r'||k==='R'){ fi=Math.floor(Math.random()*deck.length); flipped=false; drawCard(true); }
   else if(k==='x'||k==='X'){ ev.preventDefault(); toggleShuf(); }
+});
+
+/* ---------- 检测 ---------- */
+var qz=document.getElementById('qz'), qzStage=document.getElementById('qzStage'),
+    qzScope=document.getElementById('qzScope');
+var QZ={on:false,types:['ez'],scope:'range',n:20,list:[],i:0,right:0,wrong:[],locked:false};
+try{ var qs=localStorage.getItem('ox5k_qz'); if(qs){ var o=JSON.parse(qs);
+  if(o.types&&o.types.length) QZ.types=o.types; if(o.scope) QZ.scope=o.scope; if(o.n) QZ.n=o.n; } }catch(e){}
+function qzSave(){ try{ localStorage.setItem('ox5k_qz',
+  JSON.stringify({types:QZ.types,scope:QZ.scope,n:QZ.n})); }catch(e){} }
+
+var QZT=[{k:'ez',t:'看英文选中文'},{k:'ze',t:'看中文选英文'},
+         {k:'sp',t:'拼写'},{k:'li',t:'听音选词'}];
+
+/* 出题池：range=当前筛选范围；learned=进过记忆曲线的词 */
+function qzPool(){
+  var a=[],i,e;
+  if(QZ.scope==='learned'){
+    for(i=0;i<ALL.length;i++){ e=ALL[i]; if(SRS[e.w]&&e._zh) a.push(e); }
+  } else {
+    for(i=0;i<ALL.length;i++){ e=ALL[i]; if(baseMatch(e)&&e._zh) a.push(e); }
+  }
+  return a;
+}
+function qzPick(arr,n){ var c=arr.slice(); shuffleArr(c); return c.slice(0,n); }
+
+function openQZ(){
+  QZ.on=true; qz.classList.add('on'); document.body.style.overflow='hidden';
+  qzScope.textContent=''; qzSetup();
+}
+function closeQZ(){
+  QZ.on=false; qz.classList.remove('on'); document.body.style.overflow='';
+  if(window.speechSynthesis) speechSynthesis.cancel();
+  render(true);
+}
+function qzSetup(){
+  var h='';
+  h+='<div class="qzsetup"><h2>检测</h2><div class="sub">选题型和范围，答完给你错题清单</div>';
+  h+='<div class="row"><div class="lb">题型（可多选，混合出题）</div><div class="opts" id="qzTypes">';
+  QZT.forEach(function(t){
+    h+='<button data-k="'+t.k+'" aria-pressed="'+(QZ.types.indexOf(t.k)>-1)+'">'+t.t+'</button>';
+  });
+  h+='</div></div>';
+  h+='<div class="row"><div class="lb">出题范围</div><div class="opts" id="qzScopeSel">'+
+     '<button data-s="range" aria-pressed="'+(QZ.scope==='range')+'">当前筛选范围</button>'+
+     '<button data-s="learned" aria-pressed="'+(QZ.scope==='learned')+'">只测学过的词</button>'+
+     '</div></div>';
+  h+='<div class="row"><div class="lb">题量</div><div class="opts" id="qzN">';
+  [10,20,50].forEach(function(n){ h+='<button data-n="'+n+'" aria-pressed="'+(QZ.n===n)+'">'+n+' 题</button>'; });
+  h+='</div></div>';
+  h+='<button class="qzgo" id="qzGo">开始检测</button>';
+  h+='<div class="qzwarn" id="qzWarn"></div></div>';
+  qzStage.innerHTML=h;
+
+  function refresh(){
+    var p=qzPool(), w=document.getElementById('qzWarn'), go=document.getElementById('qzGo');
+    var need=(QZ.types.indexOf('ez')>-1||QZ.types.indexOf('ze')>-1||QZ.types.indexOf('li')>-1)?4:1;
+    var msg='';
+    if(!QZ.types.length) msg='至少选一种题型';
+    else if(p.length<need) msg=(QZ.scope==='learned'
+      ? '学过的词还不够（当前 '+p.length+' 个）。先去「开始复习」学几个词再来。'
+      : '当前筛选范围里可用词条只有 '+p.length+' 个，不够出题。放宽筛选试试。');
+    w.textContent=msg; go.disabled=!!msg;
+    if(!msg) w.textContent='可出题词库：'+p.length+' 词'+(QZ.n>p.length?'（不足 '+QZ.n+' 题，会按 '+p.length+' 题出）':'');
+  }
+  document.getElementById('qzTypes').onclick=function(ev){
+    var b=ev.target.closest('button[data-k]'); if(!b) return;
+    var k=b.dataset.k, at=QZ.types.indexOf(k);
+    if(at>-1) QZ.types.splice(at,1); else QZ.types.push(k);
+    b.setAttribute('aria-pressed',QZ.types.indexOf(k)>-1); qzSave(); refresh();
+  };
+  document.getElementById('qzScopeSel').onclick=function(ev){
+    var b=ev.target.closest('button[data-s]'); if(!b) return;
+    QZ.scope=b.dataset.s; qzSave();
+    [].forEach.call(this.children,function(x){ x.setAttribute('aria-pressed',x.dataset.s===QZ.scope); });
+    refresh();
+  };
+  document.getElementById('qzN').onclick=function(ev){
+    var b=ev.target.closest('button[data-n]'); if(!b) return;
+    QZ.n=+b.dataset.n; qzSave();
+    [].forEach.call(this.children,function(x){ x.setAttribute('aria-pressed',+x.dataset.n===QZ.n); });
+    refresh();
+  };
+  document.getElementById('qzGo').onclick=qzStart;
+  refresh();
+}
+function qzStart(){
+  var pool=qzPool();
+  if(!pool.length||!QZ.types.length) return;
+  var picks=qzPick(pool,Math.min(QZ.n,pool.length));
+  QZ.list=picks.map(function(e){
+    var ty=QZ.types[Math.floor(Math.random()*QZ.types.length)];
+    var q={e:e,ty:ty};
+    if(ty!=='sp'){
+      var others=[],guard=0;
+      while(others.length<3&&guard++<400){
+        var c=pool[Math.floor(Math.random()*pool.length)];
+        if(c.w===e.w) continue;
+        if(others.some(function(x){ return x.w===c.w; })) continue;
+        if(ty==='ez'&&c._zh===e._zh) continue;
+        others.push(c);
+      }
+      q.opts=shuffleArr(others.concat([e]));
+    }
+    return q;
+  });
+  QZ.i=0; QZ.right=0; QZ.wrong=[]; QZ.locked=false;
+  qzRender();
+}
+function qzRender(){
+  if(QZ.i>=QZ.list.length){ qzResult(); return; }
+  var q=QZ.list[QZ.i], e=q.e, h='';
+  qzScope.textContent=(QZ.scope==='learned'?'学过的词':labelFor(SET)+(LV==='all'?'':' · '+LV));
+  h+='<div class="qzbar"><span>'+(QZ.i+1)+' / '+QZ.list.length+'</span>'+
+     '<span class="qzprog"><i style="width:'+Math.round(QZ.i/QZ.list.length*100)+'%"></i></span>'+
+     '<span>✓ '+QZ.right+'</span></div>';
+  h+='<div class="qzbody">';
+  if(q.ty==='ez'){
+    h+='<div class="qzq">'+esc(e.w)+'</div><div class="qzhint">选出正确的中文释义</div>';
+    h+='<div class="qzopts" id="qzO">';
+    q.opts.forEach(function(o,i){ h+='<button data-i="'+i+'">'+esc(o._zh)+'</button>'; });
+    h+='</div>';
+  } else if(q.ty==='ze'){
+    h+='<div class="qzq zh">'+esc(e._zh)+'</div><div class="qzhint">选出对应的单词</div>';
+    h+='<div class="qzopts" id="qzO">';
+    q.opts.forEach(function(o,i){ h+='<button data-i="'+i+'">'+esc(o.w)+'</button>'; });
+    h+='</div>';
+  } else if(q.ty==='li'){
+    h+='<div class="qzq" id="qzPlay" style="cursor:pointer" title="点击重播">🔊</div>'+
+       '<div class="qzhint">听发音，选出对应的单词　（点喇叭或按 S 重播）</div>';
+    h+='<div class="qzopts" id="qzO">';
+    q.opts.forEach(function(o,i){ h+='<button data-i="'+i+'">'+esc(o.w)+'</button>'; });
+    h+='</div>';
+  } else {
+    h+='<div class="qzq zh">'+esc(e._zh)+'</div><div class="qzhint">拼出这个单词，回车提交</div>';
+    h+='<input class="qzin" id="qzIn" autocomplete="off" autocapitalize="off" '+
+       'autocorrect="off" spellcheck="false" placeholder="'+esc(e.w.replace(/[^ -]/g,'_'))+'">';
+  }
+  h+='<div class="qzfb" id="qzFb"></div></div>';
+  qzStage.innerHTML=h;
+  QZ.locked=false;
+
+  if(q.ty==='sp'){
+    var inp=document.getElementById('qzIn');
+    inp.focus();
+    inp.onkeydown=function(ev){ if(ev.key==='Enter'){ ev.preventDefault(); qzAnswer(inp.value); } };
+  } else {
+    document.getElementById('qzO').onclick=function(ev){
+      var b=ev.target.closest('button[data-i]'); if(!b) return;
+      qzAnswer(q.opts[+b.dataset.i].w, b);
+    };
+    if(q.ty==='li'){
+      speak(e.w);
+      document.getElementById('qzPlay').onclick=function(){ speak(e.w); };
+    }
+  }
+}
+function qzAnswer(val,btn){
+  if(QZ.locked) return; QZ.locked=true;
+  var q=QZ.list[QZ.i], e=q.e;
+  var ok=String(val||'').trim().toLowerCase()===e.w.toLowerCase();
+  if(ok) QZ.right++; else QZ.wrong.push(q);
+  var fb=document.getElementById('qzFb');
+  if(q.ty==='sp'){
+    var inp=document.getElementById('qzIn');
+    inp.classList.add(ok?'right':'wrong'); inp.disabled=true;
+    fb.innerHTML=ok?'<span class="ok">✓ 正确</span>'
+      :'<span class="no">✗ 正确答案：</span><span class="ans">'+esc(e.w)+'</span>';
+  } else {
+    var box=document.getElementById('qzO');
+    [].forEach.call(box.children,function(b){
+      b.disabled=true;
+      if(q.opts[+b.dataset.i].w===e.w) b.classList.add('right');
+    });
+    if(!ok&&btn) btn.classList.add('wrong');
+    fb.innerHTML=ok?'<span class="ok">✓ 正确</span>'
+      :'<span class="no">✗ 正确答案：</span><span class="ans">'+esc(e.w)+'　'+esc(e._zh)+'</span>';
+  }
+  if(P.auto) speak(e.w);
+  var nx=document.createElement('button');
+  nx.className='qznext';
+  nx.textContent=(QZ.i+1>=QZ.list.length?'看结果':'下一题　(空格)');
+  nx.onclick=qzNext;
+  fb.parentNode.appendChild(nx);
+  setTimeout(function(){ nx.focus(); },30);
+}
+function qzNext(){ QZ.i++; qzRender(); }
+function qzResult(){
+  var tot=QZ.list.length, pct=tot?Math.round(QZ.right/tot*100):0, h='';
+  qzScope.textContent='';
+  h+='<div class="qzres"><div class="qzscore">'+pct+'%</div>'+
+     '<div class="qzsub">'+QZ.right+' / '+tot+' 正确'+
+     (QZ.wrong.length?'　·　错 '+QZ.wrong.length+' 个':'　·　全对 🎉')+'</div>';
+  if(QZ.wrong.length){
+    h+='<div class="qzwrong">';
+    QZ.wrong.forEach(function(q){
+      h+='<div class="it"><b>'+esc(q.e.w)+'</b><span>'+esc(q.e._zh)+'</span></div>';
+    });
+    h+='</div>';
+  }
+  h+='<div class="qzacts">';
+  if(QZ.wrong.length) h+='<button class="p" id="qzAdd">把错题加入复习计划</button>';
+  h+='<button id="qzAgain">再来一轮</button><button id="qzBack">改设置</button></div></div>';
+  qzStage.innerHTML=h;
+  if(QZ.wrong.length) document.getElementById('qzAdd').onclick=function(){
+    var n=0;
+    QZ.wrong.forEach(function(q){
+      var w=q.e.w;
+      if(isDone(w)) setDone(w,false);
+      SRS[w]=[0,250,0,TODAY,(SRS[w]&&SRS[w][4])||0]; n++;
+    });
+    saveSrs(); this.disabled=true; this.textContent='已加入 '+n+' 个';
+    toast('已加入复习计划，去「开始复习」');
+  };
+  document.getElementById('qzAgain').onclick=qzStart;
+  document.getElementById('qzBack').onclick=qzSetup;
+}
+document.getElementById('qzBtn').onclick=openQZ;
+document.getElementById('qzClose').onclick=closeQZ;
+document.addEventListener('keydown',function(ev){
+  if(!QZ.on) return;
+  if(ev.key==='Escape'){ closeQZ(); return; }
+  var q=QZ.list[QZ.i];
+  if(ev.key===' '&&QZ.locked){ ev.preventDefault(); qzNext(); return; }
+  if((ev.key==='s'||ev.key==='S')&&q&&q.ty==='li'&&document.activeElement.tagName!=='INPUT'){ speak(q.e.w); return; }
+  if(q&&!QZ.locked&&q.ty!=='sp'&&ev.key>='1'&&ev.key<='4'){
+    var b=qzStage.querySelector('button[data-i="'+(+ev.key-1)+'"]');
+    if(b) qzAnswer(q.opts[+ev.key-1].w,b);
+  }
 });
 
 /* ---------- go ---------- */
