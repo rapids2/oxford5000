@@ -175,6 +175,9 @@ select.mini{appearance:auto;padding:5px 6px}
 .badge{font:600 10px/1 var(--mono);border:1px solid currentColor;border-radius:5px;padding:4px 6px;letter-spacing:.05em}
 .badge.n{color:var(--new)} .badge.d{color:var(--due)} .badge.l{color:var(--g2)}
 
+/* .fcnav / .grades 用 display 布局，会盖过 hidden 属性的默认样式，这里补回来 */
+[hidden]{display:none !important}
+
 .fcnav{display:flex;align-items:center;gap:14px;margin-top:20px;flex-wrap:wrap;justify-content:center}
 .fcnav button{border:1px solid var(--line2);background:var(--card);color:var(--ink);border-radius:10px;
   padding:9px 17px;font:500 13px var(--sans);cursor:pointer}
