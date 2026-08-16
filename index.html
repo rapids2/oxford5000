@@ -180,6 +180,8 @@ select.mini{appearance:auto;padding:5px 6px}
   padding:9px 17px;font:500 13px var(--sans);cursor:pointer}
 .fcnav button:hover{border-color:var(--accent2)}
 .fcnav .ok{border-color:color-mix(in srgb,var(--ok) 50%,transparent);color:var(--ok)}
+.fcnav button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+html[data-theme="dark"] .fcnav button[aria-pressed="true"]{color:#16150f}
 .fcnav .pos{font:12px var(--mono);color:var(--ink3);min-width:86px;text-align:center}
 
 .grades{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;width:min(560px,100%);margin-top:18px}
@@ -310,6 +312,7 @@ footer a{color:var(--ink2)}
     <button id="fcPrev">← 上一个</button>
     <span class="pos" id="fcPos">1 / 1</span>
     <button id="fcNext">下一个 →</button>
+    <button id="fcShuf" aria-pressed="false" title="打乱词序，每次进入卡片顺序都不同">🔀 乱序 (X)</button>
     <button id="fcOk" class="ok">✓ 已掌握 (K)</button>
   </div>
   <div class="grades" id="grades" hidden>
@@ -378,7 +381,7 @@ function today(){ return Math.floor(Date.now()/DAY); }
 var TODAY=today();
 
 /* ---------- prefs ---------- */
-var P={acc:'u',theme:'light',auto:true,showDone:false,npd:20,stamp:TODAY,newToday:0,revToday:0,voiceGB:'',voiceUS:'',rate:0.9,exOnFlip:true};
+var P={acc:'u',theme:'light',auto:true,showDone:false,npd:20,stamp:TODAY,newToday:0,revToday:0,voiceGB:'',voiceUS:'',rate:0.9,exOnFlip:true,shuffle:false};
 try{ var s=localStorage.getItem('ox5k'); if(s) P=Object.assign(P,JSON.parse(s)); }catch(e){}
 if(P.stamp!==TODAY){ P.stamp=TODAY; P.newToday=0; P.revToday=0; }
 function save(){ try{ localStorage.setItem('ox5k',JSON.stringify(P)); }catch(e){} }
@@ -798,15 +801,42 @@ var fcOn=false, MODE='browse', fi=0, flipped=false, deck=[], sess={n:0,r:0,g:0};
 
 function labelFor(k){ for(var i=0;i<SETS.length;i++) if(SETS[i].k===k) return SETS[i].label; return ''; }
 
-function openBrowse(){
+/* Fisher–Yates，原地打乱 */
+function shuffleArr(a){
+  for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)), t=a[i]; a[i]=a[j]; a[j]=t; }
+  return a;
+}
+function applyShuf(){
+  document.getElementById('fcShuf').setAttribute('aria-pressed',!!P.shuffle);
+}
+/* 重建浏览牌堆：乱序开就打乱，关就回到原顺序 */
+function rebuildBrowseDeck(keepCur){
+  var keep=keepCur?cur():null;
   compute(); deck=view.slice();
-  if(!deck.length){ alert('当前筛选下没有待学的词条。'); return; }
-  MODE='browse'; fi=0; flipped=false; fcOn=true; fc.classList.add('on');
+  if(P.shuffle) shuffleArr(deck);
+  fi=0;
+  if(keep){ var at=deck.indexOf(keep); if(at>-1) fi=at; }
+  flipped=false;
+}
+function openBrowse(){
+  compute();
+  if(!view.length){ alert('当前筛选下没有待学的词条。'); return; }
+  MODE='browse'; fcOn=true; fc.classList.add('on');
+  rebuildBrowseDeck(false);
   document.body.style.overflow='hidden';
   document.getElementById('fcBtn').setAttribute('aria-pressed','true');
   fcnav.hidden=false; grades.hidden=true;
-  fchelp.innerHTML='← → 切换 · 空格翻转 · K 标记已掌握 · S 读单词 · E 读例句 · R 随机 · Esc 退出<br>切到新卡片自动读词，翻面自动读例句（整句更自然）';
+  applyShuf();
+  fchelp.innerHTML='← → 切换 · 空格翻转 · K 标记已掌握 · S 读单词 · E 读例句 · X 乱序 · R 随机 · Esc 退出<br>切到新卡片自动读词，翻面自动读例句（整句更自然）';
   drawCard(true);
+}
+/* 切换乱序：开→就地打乱并从头开始；关→回到原顺序，停在当前这张 */
+function toggleShuf(){
+  if(MODE!=='browse') return;
+  P.shuffle=!P.shuffle; save(); applyShuf();
+  rebuildBrowseDeck(!P.shuffle);
+  drawCard(true);
+  toast(P.shuffle?'已打乱词序':'已恢复原顺序');
 }
 function openSRS(){
   var due=poolDue();
@@ -927,6 +957,7 @@ document.getElementById('srsBtn').onclick=function(){ if(fcOn) closeFC(); openSR
 document.getElementById('fcClose').onclick=closeFC;
 document.getElementById('fcPrev').onclick=function(){ step(-1); };
 document.getElementById('fcNext').onclick=function(){ step(1); };
+document.getElementById('fcShuf').onclick=toggleShuf;
 document.getElementById('fcOk').onclick=markOk;
 card.onclick=function(ev){
   if(!deck.length) return;
@@ -960,6 +991,7 @@ document.addEventListener('keydown',function(ev){
   else if(k==='ArrowLeft'){ ev.preventDefault(); step(-1); }
   else if(k==='k'||k==='K'){ ev.preventDefault(); markOk(); }
   else if(k==='r'||k==='R'){ fi=Math.floor(Math.random()*deck.length); flipped=false; drawCard(true); }
+  else if(k==='x'||k==='X'){ ev.preventDefault(); toggleShuf(); }
 });
 
 /* ---------- go ---------- */
